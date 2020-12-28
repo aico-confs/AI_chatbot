@@ -15,12 +15,12 @@ from tensorflow.keras.optimizers import SGD
 lemmatizer = WordNetLemmatizer()
 jieba.set_dictionary('dict.txt.big.txt')
 
-intents = json.loads(open(r"C:\Users\q1233\OneDrive\Desktop\程式自學\python\chatbot\intents.json",mode="r",encoding="UTF-8").read())
+intents = json.loads(open("intents.json", mode="r", encoding="UTF-8").read())
 
 words = []
 classes = []
 documents = []
-ignore_letters = ["!", '，', '。']
+ignore_letters = ["!", '，', '。', '的', '喔', '哦', '啊']
 for intent in intents["intents"]:
     for pattern in intent["patterns"]:
         # word_list = nltk.word_tokenize(pattern)
@@ -53,7 +53,7 @@ output_empty = [0] * len(classes)
 
 for document in documents:
     bag = []
-    word_patterns = document[0]
+    word_patterns = document[0]                                    #ex：['明天', '見']
     word_patterns = [lemmatizer.lemmatize(word.lower()) for word in word_patterns]
     for word in words:
         bag.append(1) if word in word_patterns else bag.append(0)
@@ -76,7 +76,7 @@ model.add(Dense(len(train_y[0]), activation='relu'))
 
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
-hist = model.fit(np.array(train_x), np.array(train_y), epochs=500, batch_size=5, verbose=1)
+hist = model.fit(np.array(train_x), np.array(train_y), epochs=210, batch_size=5, verbose=1)
 model.save('chatbotmodel.h5', hist)
 
 print('yeah')

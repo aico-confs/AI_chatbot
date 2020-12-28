@@ -14,7 +14,7 @@ from tensorflow.keras.models import load_model
 jieba.set_dictionary('dict.txt.big.txt')
 lemmatizer = WordNetLemmatizer()
 
-with open(r"C:\Users\q1233\OneDrive\Desktop\程式自學\python\chatbot\intents.json", mode="r", encoding="UTF-8") as file:
+with open("intents.json", mode="r", encoding="UTF-8") as file:
     intents = json.loads(file.read())
 with open('words.pkl', 'rb') as file:
     words = pickle.load(file)
